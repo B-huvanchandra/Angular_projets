@@ -1,0 +1,73 @@
+
+<div class="container-fluid">
+
+  <h2>Supermarket Reports</h2>
+
+  <p class="text-muted">
+    Monitor your FreshMart business performance
+  </p>
+
+  <div class="row g-3 mt-3">
+
+    <!-- Total Products -->
+    <div class="col-md-4 col-lg-3">
+      <div class="card shadow-sm p-3 h-100">
+        <h6 class="text-muted">Total Products</h6>
+        <h2 class="text-primary">
+          {{ totalProducts() }}
+        </h2>
+      </div>
+    </div>
+
+    <!-- Total Employees -->
+    <div class="col-md-4 col-lg-3">
+      <div class="card shadow-sm p-3 h-100">
+        <h6 class="text-muted">Total Employees</h6>
+        <h2 class="text-info">
+          {{ totalEmployees() }}
+        </h2>
+      </div>
+    </div>
+
+    <!-- Total Sales -->
+    <div class="col-md-4 col-lg-3">
+      <div class="card shadow-sm p-3 h-100">
+        <h6 class="text-muted">Total Bills</h6>
+        <h2 class="text-warning">
+          {{ totalSales() }}
+        </h2>
+      </div>
+    </div>
+
+    <!-- Total Revenue -->
+    <div class="col-md-4 col-lg-3">
+      <div class="card shadow-sm p-3 h-100">
+        <h6 class="text-muted">Total Revenue</h6>
+        <h2 class="text-success">
+          ₹{{ totalRevenue() }}
+        </h2>
+      </div>
+    </div>
+
+    <!-- Low Stock -->
+    <div class="col-md-4 col-lg-3">
+      <div class="card shadow-sm p-3 h-100">
+        <h6 class="text-muted">Low Stock Products</h6>
+        <h2 class="text-danger">
+          {{ lowStockProducts() }}
+        </h2>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Refresh Reports -->
+  <div class="mt-4">
+    <button
+      class="btn btn-primary"
+      (click)="loadReports()">
+      Refresh Reports
+    </button>
+  </div>
+
+</div>

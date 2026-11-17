@@ -1,0 +1,169 @@
+
+<div class="container-fluid">
+
+  <h2>Billing / Point of Sale</h2>
+  <p class="text-muted">Select products to generate customer bills.</p>
+
+  <div class="row g-4 mt-2">
+
+    <!-- Available Products -->
+    <div class="col-lg-7">
+
+      <div class="card shadow-sm">
+        <div class="card-body">
+
+          <h5 class="mb-3">Available Products</h5>
+
+          <div class="row g-3">
+
+            @for (product of products(); track product.id) {
+
+              <div class="col-md-6">
+
+                <div class="card h-100 border">
+
+                  <div class="card-body">
+
+                    <h6>{{ product.name }}</h6>
+
+                    <p class="text-muted mb-1">
+                      Category: {{ product.category }}
+                    </p>
+
+                    <p class="mb-1">
+                      Price: ₹{{ product.price }}
+                    </p>
+
+                    <p class="mb-3">
+                      Available Stock: {{ product.quantity }}
+                    </p>
+
+                    <button
+                      class="btn btn-primary btn-sm w-100"
+                      [disabled]="product.quantity <= 0"
+                      (click)="addToCart(product)">
+
+                      Add to Cart
+
+                    </button>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            }
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Shopping Cart -->
+    <div class="col-lg-5">
+
+      <div class="card shadow-sm">
+
+        <div class="card-body">
+
+          <h5 class="mb-3">Shopping Cart</h5>
+
+          @if (cart().length === 0) {
+
+            <p class="text-muted">
+              No products added yet.
+            </p>
+
+          } @else {
+
+            <table class="table table-bordered">
+
+              <thead class="table-dark">
+                <tr>
+                  <th>Product</th>
+                  <th>Qty</th>
+                  <th>Price</th>
+                  <th>Total</th>
+                  <th>Quantity</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+
+                @for (item of cart(); track item.product.id) {
+
+                  <tr>
+
+                    <td>{{ item.product.name }}</td>
+
+                    <td>
+  <button
+    class="btn btn-sm btn-outline-secondary"
+    (click)="decreaseQuantity(item.product.id)">
+    -
+  </button>
+
+  <span class="mx-2">{{ item.quantity }}</span>
+
+  <button
+    class="btn btn-sm btn-outline-secondary"
+    (click)="increaseQuantity(item.product.id)">
+    +
+  </button>
+</td>
+
+<td>
+  <button
+    class="btn btn-sm btn-danger"
+    (click)="removeFromCart(item.product.id)">
+    Remove
+  </button>
+</td>
+
+                    <td>₹{{ item.product.price }}</td>
+
+                    <td>
+                      ₹{{ item.product.price * item.quantity }}
+                    </td>
+
+                  </tr>
+
+                }
+
+              </tbody>
+
+            </table>
+
+            <hr>
+
+            <h5 class="text-end">
+              Grand Total: ₹{{ getGrandTotal() }}
+            </h5>
+            <div class="d-grid mt-3">
+
+  <button
+    class="btn btn-success"
+    [disabled]="cart().length === 0"
+    (click)="checkout()">
+
+    Generate Bill / Checkout
+
+  </button>
+
+</div>
+
+          }
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

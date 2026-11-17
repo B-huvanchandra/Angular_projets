@@ -1,0 +1,132 @@
+
+<div class="container-fluid">
+
+  <h2>Sales Management</h2>
+  <p class="text-muted">View supermarket sales transactions</p>
+
+  <!-- Revenue Summary -->
+  <div class="row mt-3">
+
+    <div class="col-md-4">
+
+      <div class="card shadow-sm p-3">
+
+        <h6>Total Revenue</h6>
+
+        <h3 class="text-success">
+          ₹{{ getTotalRevenue() }}
+        </h3>
+
+      </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+      <div class="card shadow-sm p-3">
+
+        <h6>Total Bills</h6>
+
+        <h3>
+          {{ sales().length }}
+        </h3>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Sales Table -->
+  <div class="card shadow-sm mt-4">
+
+    <div class="card-body">
+
+      <h5>Sales History</h5>
+      <div class="row g-3 mt-2 mb-3">
+
+  <div class="col-md-6">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Search by Bill ID or Product Name"
+      [value]="searchText()"
+      (input)="searchText.set($any($event.target).value)"
+    />
+  </div>
+
+  <div class="col-md-4">
+    <input
+      type="date"
+      class="form-control"
+      [value]="selectedDate()"
+      (change)="selectedDate.set($any($event.target).value)"
+    />
+  </div>
+
+  <div class="col-md-2">
+    <button
+      class="btn btn-secondary w-100"
+      (click)="searchText.set(''); selectedDate.set('')">
+      Clear Filters
+    </button>
+  </div>
+
+</div>
+
+      <table class="table table-bordered table-hover mt-3">
+
+        <thead class="table-dark">
+
+          <tr>
+            <th>Bill ID</th>
+            <th>Date</th>
+            <th>Products</th>
+            <th>Total Amount</th>
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          @for (sale of filterSales(); track sale.id) {
+
+            <tr>
+
+              <td>{{ sale.id }}</td>
+
+              <td>{{ sale.date | date:'medium' }}</td>
+
+              <td>
+                @for (item of sale.items; track item.productId) {
+                  <div>
+                    {{ item.productName }} ({{ item.quantity }})
+                  </div>
+                }
+              </td>
+
+              <td>
+                ₹{{ sale.grandTotal }}
+              </td>
+
+            </tr>
+
+          } @empty {
+
+            <tr>
+              <td colspan="4" class="text-center text-muted">
+                No sales records found.
+              </td>
+            </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,127 @@
+
+<div class="container-fluid">
+
+  <!-- Dashboard Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+      <h2 class="fw-bold mb-1">Dashboard</h2>
+      <p class="text-muted mb-0">
+        Welcome to FreshMart Supermarket Management
+      </p>
+    </div>
+
+    <button
+      class="btn btn-primary"
+      (click)="loadDashboardData()">
+      Refresh Data
+    </button>
+
+  </div>
+
+  <!-- Summary Cards -->
+  <div class="row g-4">
+
+    <!-- Products -->
+    <div class="col-md-6 col-xl-3">
+      <div class="card dashboard-card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <div>
+              <p class="text-muted mb-2">Total Products</p>
+              <h2 class="fw-bold text-primary">
+                {{ totalProducts() }}
+              </h2>
+            </div>
+            <div class="dashboard-icon bg-primary-subtle text-primary">
+              <i class="bi bi-box-seam"></i>
+            </div>
+          </div>
+          <small class="text-muted">Products in supermarket</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Employees -->
+    <div class="col-md-6 col-xl-3">
+      <div class="card dashboard-card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <div>
+              <p class="text-muted mb-2">Total Employees</p>
+              <h2 class="fw-bold text-info">
+                {{ totalEmployees() }}
+              </h2>
+            </div>
+            <div class="dashboard-icon bg-info-subtle text-info">
+              <i class="bi bi-people"></i>
+            </div>
+          </div>
+          <small class="text-muted">Registered employees</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Today's Sales -->
+    <div class="col-md-6 col-xl-3">
+      <div class="card dashboard-card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <div>
+              <p class="text-muted mb-2">Today's Sales</p>
+              <h2 class="fw-bold text-success">
+                ₹{{ todaySales() }}
+              </h2>
+            </div>
+            <div class="dashboard-icon bg-success-subtle text-success">
+              <i class="bi bi-currency-rupee"></i>
+            </div>
+          </div>
+          <small class="text-muted">Today's sales revenue</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Total Revenue -->
+    <div class="col-md-6 col-xl-3">
+      <div class="card dashboard-card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <div>
+              <p class="text-muted mb-2">Total Revenue</p>
+              <h2 class="fw-bold text-warning">
+                ₹{{ totalRevenue() }}
+              </h2>
+            </div>
+            <div class="dashboard-icon bg-warning-subtle text-warning">
+              <i class="bi bi-graph-up-arrow"></i>
+            </div>
+          </div>
+          <small class="text-muted">All-time sales revenue</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Low Stock -->
+    <div class="col-md-6 col-xl-3">
+      <div class="card dashboard-card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <div>
+              <p class="text-muted mb-2">Low Stock Products</p>
+              <h2 class="fw-bold text-danger">
+                {{ lowStockProducts() }}
+              </h2>
+            </div>
+            <div class="dashboard-icon bg-danger-subtle text-danger">
+              <i class="bi bi-exclamation-triangle"></i>
+            </div>
+          </div>
+          <small class="text-muted">Products needing restocking</small>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
