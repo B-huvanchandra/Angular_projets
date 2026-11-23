@@ -1,3 +1,4 @@
+
 <nav class="navbar navbar-dark bg-dark px-4">
 
   <a class="navbar-brand fw-bold">
@@ -7,5 +8,21 @@
   <span class="text-white">
     Supermarket Management System
   </span>
+
+  <div class="d-flex gap-2">
+
+    <button
+      class="btn btn-outline-light"
+      (click)="goBack()">
+      ← Back
+    </button>
+
+    <button
+      class="btn btn-danger"
+      (click)="logout()">
+      Logout
+    </button>
+
+  </div>
 
 </nav>

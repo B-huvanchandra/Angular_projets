@@ -1,33 +1,16 @@
+
 <div class="sidebar">
 
   <h5 class="sidebar-title">MAIN MENU</h5>
 
-  <a routerLink="/dashboard" routerLinkActive="active">
-    Dashboard
-  </a>
+  @for (item of menuItems; track item.route) {
+    <a
+      [routerLink]="item.route"
+      routerLinkActive="active">
 
-  <a routerLink="/products" routerLinkActive="active">
-    Products
-  </a>
+      {{ item.label }}
 
-  <a routerLink="/inventory" routerLinkActive="active">
-    Inventory
-  </a>
-
-  <a routerLink="/billing" routerLinkActive="active">
-    Billing
-  </a>
-
-  <a routerLink="/sales" routerLinkActive="active">
-    Sales
-  </a>
-
-  <a routerLink="/employees" routerLinkActive="active">
-    Employees
-  </a>
-
-  <a routerLink="/reports" routerLinkActive="active">
-    Reports
-  </a>
+    </a>
+  }
 
 </div>

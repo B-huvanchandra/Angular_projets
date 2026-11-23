@@ -1,0 +1,80 @@
+
+<div class="login-container">
+
+  <div class="login-card">
+
+    <div class="brand">
+      <h1>🛒 FreshMart</h1>
+      <p>Supermarket Management System</p>
+    </div>
+
+    <h2>Login</h2>
+    <p class="subtitle">Welcome back! Please login to continue.</p>
+
+    
+<form (ngSubmit)="onLogin()" #loginForm="ngForm">
+
+  <div class="form-group">
+    <label>Username / Customer Name</label>
+
+    <input
+      type="text"
+      name="username"
+      [(ngModel)]="username"
+      placeholder="Enter username or your name"
+      required
+    />
+  </div>
+
+  @if (requiresPassword) {
+    <div class="form-group">
+      <label>Password</label>
+
+      <div class="password-box">
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          name="password"
+          [(ngModel)]="password"
+          placeholder="Enter your password"
+          required
+        />
+
+        <button
+          type="button"
+          class="toggle-password"
+          (click)="showPassword = !showPassword">
+          {{ showPassword ? 'Hide' : 'Show' }}
+        </button>
+      </div>
+    </div>
+  }
+
+  @if (!requiresPassword && username.trim()) {
+    <p class="text-success">
+      Customer access — no password required.
+    </p>
+  }
+
+  @if (errorMessage) {
+    <div class="error-message">
+      {{ errorMessage }}
+    </div>
+  }
+
+  <button
+    type="submit"
+    class="login-button"
+    [disabled]="!username.trim() || (requiresPassword && !password.trim())">
+    Login
+  </button>
+
+</form>
+
+
+    <p class="footer-text">
+      © 2026 FreshMart. All rights reserved.
+    </p>
+
+  </div>
+
+</div>

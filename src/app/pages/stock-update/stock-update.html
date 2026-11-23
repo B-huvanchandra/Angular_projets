@@ -1,0 +1,56 @@
+
+<div class="container mt-4">
+
+  <h2>Stock Update</h2>
+  <p>Welcome! You can update product stock quantities here.</p>
+
+  @if (message) {
+    <div class="alert alert-info">
+      {{ message }}
+    </div>
+  }
+
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped">
+
+      <thead class="table-dark">
+        <tr>
+          <th>Product Name</th>
+          <th>Category</th>
+          <th>Current Stock</th>
+          <th>Update Quantity</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (product of products(); track product.id) {
+          <tr>
+            <td>{{ product.name }}</td>
+            <td>{{ product.category }}</td>
+            <td>{{ product.quantity }}</td>
+
+            <td>
+              <input
+                type="number"
+                class="form-control"
+                [(ngModel)]="product.quantity"
+                min="0"
+              />
+            </td>
+
+            <td>
+              <button
+                class="btn btn-success btn-sm"
+                (click)="updateStock(product)">
+                Update Stock
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+
+    </table>
+  </div>
+
+</div>

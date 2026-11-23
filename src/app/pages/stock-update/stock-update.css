@@ -1,0 +1,17 @@
+
+h2 {
+  color: #198754;
+  font-weight: 600;
+}
+
+table {
+  margin-top: 20px;
+}
+
+input {
+  min-width: 100px;
+}
+
+button {
+  white-space: nowrap;
+}

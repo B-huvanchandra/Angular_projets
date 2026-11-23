@@ -13,6 +13,15 @@ interface Sale {
   grandTotal: number;
 }
 
+interface CustomerOrder {
+  id?: number;
+  customer: string;
+  items: any[];
+  totalAmount: number;
+  orderDate: string;
+  status: string;
+}
+
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -34,6 +43,17 @@ export class Dashboard implements OnInit {
     this.loadDashboardData();
   }
 
+  // Compare dates using the browser's local date
+  isToday(dateValue: string): boolean {
+    const date = new Date(dateValue);
+
+    const today = new Date();
+
+    return date.getFullYear() === today.getFullYear() &&
+      date.getMonth() === today.getMonth() &&
+      date.getDate() === today.getDate();
+  }
+
   loadDashboardData(): void {
 
     forkJoin({
@@ -48,6 +68,10 @@ export class Dashboard implements OnInit {
 
       sales: this.http.get<Sale[]>(
         'http://localhost:3000/sales'
+      ),
+
+      orders: this.http.get<CustomerOrder[]>(
+        'http://localhost:3000/orders'
       )
 
     }).subscribe({
@@ -58,24 +82,44 @@ export class Dashboard implements OnInit {
 
         this.totalEmployees.set(data.employees.length);
 
-        const today = new Date().toLocaleDateString('en-CA');
-
-        const todaySales = data.sales.filter(sale =>
-          new Date(sale.date).toLocaleDateString('en-CA') === today
+        // Today's employee billing sales
+        const todayEmployeeSales = data.sales.filter(sale =>
+          this.isToday(sale.date)
         );
 
+        const employeeTodayRevenue = todayEmployeeSales.reduce(
+          (total, sale) => total + Number(sale.grandTotal || 0),
+          0
+        );
+
+        // Today's customer orders
+        const todayCustomerOrders = data.orders.filter(order =>
+          this.isToday(order.orderDate)
+        );
+
+        const customerTodayRevenue = todayCustomerOrders.reduce(
+          (total, order) => total + Number(order.totalAmount || 0),
+          0
+        );
+
+        // Combine both sources
         this.todaySales.set(
-          todaySales.reduce(
-            (total, sale) => total + sale.grandTotal,
-            0
-          )
+          employeeTodayRevenue + customerTodayRevenue
+        );
+
+        // Total revenue from both collections
+        const employeeRevenue = data.sales.reduce(
+          (total, sale) => total + Number(sale.grandTotal || 0),
+          0
+        );
+
+        const customerRevenue = data.orders.reduce(
+          (total, order) => total + Number(order.totalAmount || 0),
+          0
         );
 
         this.totalRevenue.set(
-          data.sales.reduce(
-            (total, sale) => total + sale.grandTotal,
-            0
-          )
+          employeeRevenue + customerRevenue
         );
 
         this.lowStockProducts.set(
@@ -83,6 +127,10 @@ export class Dashboard implements OnInit {
             product.quantity > 0 && product.quantity <= 10
           ).length
         );
+
+        console.log('Employee sales:', data.sales);
+        console.log('Customer orders:', data.orders);
+        console.log('Today sales amount:', this.todaySales());
 
       },
 
@@ -93,5 +141,4 @@ export class Dashboard implements OnInit {
     });
 
   }
-
 }

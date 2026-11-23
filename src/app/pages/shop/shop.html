@@ -1,0 +1,236 @@
+
+<div class="container-fluid mt-4 shop-page">
+
+  <h2>Welcome to FreshMart!</h2>
+  <p>Search products and shop with us.</p>
+
+  @if (message()) {
+    <div class="alert alert-info">
+      {{ message() }}
+    </div>
+  }
+
+  <!-- Search Products -->
+  <input
+    type="text"
+    class="form-control mb-4"
+    placeholder="Search products..."
+    [ngModel]="searchText()"
+    (ngModelChange)="searchText.set($event)"
+  >
+
+  <div class="row">
+
+    <!-- Available Products -->
+    <div class="col-lg-8">
+
+      <h4>Available Products</h4>
+
+      <div class="row">
+
+        @for (product of filteredProducts; track product.id) {
+
+          <div class="col-md-4 mb-3">
+
+            <div class="card h-100 shadow-sm">
+              <div class="card-body">
+
+                <h5>{{ product.name }}</h5>
+
+                <p class="text-muted">
+                  {{ product.category }}
+                </p>
+
+                <h6>Price: ₹{{ product.price }}</h6>
+
+                <p>Available: {{ product.quantity }}</p>
+
+                @if (product.quantity > 0) {
+                  <button
+                    class="btn btn-primary w-100"
+                    (click)="addToCart(product)">
+                    Add to Cart
+                  </button>
+                } @else {
+                  <button class="btn btn-secondary w-100" disabled>
+                    Out of Stock
+                  </button>
+                }
+
+              </div>
+            </div>
+
+          </div>
+
+        } @empty {
+          <p>No products found.</p>
+        }
+
+      </div>
+    </div>
+
+    <!-- Shopping Cart -->
+    <div class="col-lg-4">
+
+      <div class="card shadow-sm">
+
+        <div class="card-header">
+          <h4>My Shopping Cart</h4>
+        </div>
+
+        <div class="card-body">
+
+          @for (item of cart(); track item.product.id) {
+
+            <div class="border-bottom py-3">
+
+              <h6>{{ item.product.name }}</h6>
+
+              <p>Price: ₹{{ item.product.price }}</p>
+
+              <div class="d-flex align-items-center gap-2">
+
+                <button
+                  class="btn btn-sm btn-outline-secondary"
+                  (click)="decreaseQuantity(item.product.id)">
+                  -
+                </button>
+
+                <span>{{ item.quantity }}</span>
+
+                <button
+                  class="btn btn-sm btn-outline-secondary"
+                  [disabled]="item.quantity >= item.product.quantity"
+                  (click)="increaseQuantity(item.product.id)">
+                  +
+                </button>
+
+                <button
+                  class="btn btn-sm btn-danger"
+                  (click)="removeFromCart(item.product.id)">
+                  Remove
+                </button>
+
+              </div>
+
+              <p class="mt-2">
+                Subtotal: ₹{{ item.product.price * item.quantity }}
+              </p>
+
+            </div>
+
+          } @empty {
+            <p>Your cart is empty.</p>
+          }
+
+          <hr>
+
+          <!-- Customer name from login -->
+          <div class="alert alert-light border">
+            <strong>Customer Name:</strong>
+            {{ customerName() || 'Not available' }}
+          </div>
+
+          <hr>
+
+          <!-- Grand Total -->
+          <h5>
+            Grand Total: ₹{{ getGrandTotal() }}
+          </h5>
+
+          <button
+            class="btn btn-success w-100 mt-3"
+            [disabled]="cart().length === 0 || isBuying()"
+            (click)="placeOrder()">
+
+            {{ isBuying() ? 'Processing...' : 'Place Order & Generate Bill' }}
+
+          </button>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Customer Bill -->
+  @if (lastBill(); as bill) {
+
+    <div class="card shadow mt-4 mb-5" id="customer-bill">
+
+      <div class="card-header text-center">
+        <h3>FreshMart Supermarket</h3>
+        <h5>Customer Purchase Bill</h5>
+      </div>
+
+      <div class="card-body">
+
+        <p>
+          <strong>Bill Number:</strong> FM-{{ bill.id }}
+        </p>
+
+        <p>
+          <strong>Customer Name:</strong> {{ bill.customer }}
+        </p>
+
+        <p>
+          <strong>Order Date:</strong> {{ bill.orderDate | date:'medium' }}
+        </p>
+
+        <p>
+          <strong>Status:</strong> {{ bill.status }}
+        </p>
+
+        <hr>
+
+        <h5>Purchased Products</h5>
+
+        <div class="table-responsive">
+          <table class="table table-bordered">
+
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Subtotal</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              @for (item of bill.items; track item.productId) {
+                <tr>
+                  <td>{{ item.productName }}</td>
+                  <td>₹{{ item.price }}</td>
+                  <td>{{ item.quantity }}</td>
+                  <td>₹{{ item.total }}</td>
+                </tr>
+              }
+            </tbody>
+
+          </table>
+        </div>
+
+        <div class="text-end">
+          <h4>Grand Total: ₹{{ bill.totalAmount }}</h4>
+        </div>
+
+        <hr>
+
+        <p class="text-center">
+          Thank you for shopping with FreshMart!
+        </p>
+
+        <button
+          class="btn btn-primary w-100"
+          (click)="printBill()">
+          Print Bill
+        </button>
+
+      </div>
+    </div>
+
+  }
+
+</div>

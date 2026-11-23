@@ -1,0 +1,24 @@
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  #customer-bill,
+  #customer-bill * {
+    visibility: visible;
+  }
+
+  #customer-bill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  #customer-bill button {
+    display: none !important;
+  }
+}
